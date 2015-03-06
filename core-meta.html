@@ -59,7 +59,8 @@ Or, in a Polymer element, you can include a meta in your template:
 
       is: 'core-meta',
 
-      published: {
+      properties: {
+
         /**
          * The type of meta-data.  All meta-data with the same type with be
          * stored together.
@@ -68,7 +69,10 @@ Or, in a Polymer element, you can include a meta in your template:
          * @type String
          * @default 'default'
          */
-        type: String,
+        type: {
+          type: String,
+          value: 'default'
+        },
 
         /**
          * The value of the meta-data to store. If no value is specified, the
@@ -78,7 +82,11 @@ Or, in a Polymer element, you can include a meta in your template:
          * @type *
          * @default this
          */
-        value: String,
+        value: {
+          type: String,
+          value: function() {return this;},
+          observer: 'valueChanged'
+        },
 
         /**
          * The key used to store the `value` under the `type` namespace.
@@ -87,20 +95,12 @@ Or, in a Polymer element, you can include a meta in your template:
          * @type String
          * @default ''
          */
-        key: String
-      },
+        key: {
+          type: String,
+          value: '',
+          observer: 'keyChanged'
+        }
 
-      bind: {
-        value: 'valueChanged',
-        key: 'keyChanged'
-      },
-
-      configure: function () {
-        return {
-          type: 'default',
-          key: '',
-          value: this
-        };
       },
 
       ready: function() {
